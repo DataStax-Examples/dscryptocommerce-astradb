@@ -1,0 +1,45 @@
+{
+  "name": "client",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@astrajs/rest": "^0.3.2",
+    "@chakra-ui/react": "^1.7.4",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@fontsource/dongle": "^4.5.1",
+    "@fontsource/rubik": "^4.5.0",
+    "@fontsource/work-sans": "^4.5.2",
+    "@openzeppelin/contracts": "^4.4.2",
+    "@supabase/supabase-js": "^1.29.2",
+    "@types/uuid": "^8.3.4",
+    "@usedapp/core": "^0.9.0",
+    "aws-sdk": "^2.1071.0",
+    "axios": "^0.25.0",
+    "firebase": "^9.6.3",
+    "framer-motion": "^5",
+    "next": "12.0.8",
+    "nft.storage": "^5.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@types/node": "17.0.8",
+    "@types/react": "17.0.38",
+    "chai": "^4.2.0",
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.2",
+    "typescript": "4.5.4"
+  }
+}
