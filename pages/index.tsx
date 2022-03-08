@@ -11,13 +11,13 @@ import Link from 'next/link'
 
 import AWS from 'aws-sdk'
 
-const S3_BUCKET = process.env.S3_BUCKET;
-const REGION = process.env.REGION;
-
+const S3_BUCKET = process.env.NEXT_PUBLIC_S3_BUCKET;
+const REGION = process.env.NEXT_PUBLIC_REGION;
+const ASTRA_URL = process.env.NEXT_PUBLIC_ASTRA_DB_URL;
 
 AWS.config.update({
-    accessKeyId: process.env.ACCESSKEYID,
-    secretAccessKey: process.env.SECRETACCESSKEY
+    accessKeyId: process.env.NEXT_PUBLIC_ACCESSKEYID,
+    secretAccessKey: process.env.NEXT_PUBLIC_SECRETACESSKEY
 })
 
 const myBucket = new AWS.S3({
@@ -37,13 +37,14 @@ const Home: NextPage<{ products: string[]}> = (props) => {
 	const [description, setDescription] = useState('')
 	const [price, setPrice] = useState('')
 	const [image, setImage] = useState<File>()
+    const ASTRA_URL = process.env.NEXT_PUBLIC_ASTRA_DB_URL;
 
     const addProductToDraft = async () => {
         setIsLoading(true)
         const uid = v4()
-        const astra_url = `${process.env.ASTRA_DB_URL}/catalog/`
-		console.log(astra_url)
-        const data = await axios.post(astra_url, {
+        const url = `${ASTRA_URL}/catalog/`
+		console.log(url)
+        const data = await axios.post(url, {
             "name": name,
             "description": description,
             "price": price,
@@ -52,7 +53,7 @@ const Home: NextPage<{ products: string[]}> = (props) => {
             "seller_address": account
             }, {
             headers: {
-                'X-Cassandra-Token': `${process.env.ASTRA_DB_APPLICATION_TOKEN}`,
+                'X-Cassandra-Token': process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN,
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             }
@@ -135,7 +136,7 @@ const Home: NextPage<{ products: string[]}> = (props) => {
                                 <Stack border={'1px'} borderColor={'blackAlpha.200'} shadow={'1px'} rounded={'xl'}>
                                     <Link href={`/${product.product_id}`}>
                                     <a><Img 
-                                        src={`${process.env.AWS_S3!}${product.product_id}.jpeg`}  h={48} w={64} rounded={'xl'}/>
+                                        src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product.product_id}.jpeg`}  h={48} w={64} rounded={'xl'}/>
                                      </a></Link>
                                     <Stack p={2} spacing={4}>
 

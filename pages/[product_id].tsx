@@ -18,7 +18,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
     const signer = library?.getSigner()
     const contract = new ethers.Contract(DEPLOYED_ADDRESS, ABI, signer)
     const headers = {
-        'X-Cassandra-Token': `${process.env.ASTRA_DB_APPLICATION_TOKEN}`,
+        'X-Cassandra-Token': `${process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN}`,
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
     } 
@@ -41,7 +41,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
             })
             if(listNftTx){
                 const receipt = await listNftTx.wait()
-                const astra_url = `${process.env.ASTRA_DB_URL}/catalog/${productId}`
+                const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
                 const res = await axios.patch(astra_url, {
                     "product_status": "LISTED",
                     "tokenid": expectedTokenId
@@ -61,7 +61,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
             if(bidNftTx){
                 const receipt = await bidNftTx.wait()
                 if(receipt){
-                  const astra_url =`${process.env.ASTRA_DB_URL}/catalog/${productId}`
+                  const astra_url =`${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
                   const res = await axios.patch(astra_url, {
                       "product_status": "BOUGHT",
                       "buyer_address": account
@@ -80,7 +80,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 console.log(shipNftTx)
                 const receipt = await shipNftTx.wait()
                 if(receipt){
-                  const astra_url = `${process.env.ASTRA_DB_URL}/catalog/${productId}`
+                  const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
                   const res = await axios.patch(astra_url, {
                     "product_status": "SHIPPED"
                   }, {
@@ -95,7 +95,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 gasLimit: ethers.BigNumber.from('100000')
             })
             if(receiveNftTx){
-                const astra_url = `${process.env.ASTRA_DB_URL}/catalog/${productId}`
+                const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
                 const res = await axios.patch(astra_url, {
                     "product_status": "RECEIVED"
                     }, {
@@ -146,7 +146,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 <Stack>
                     <Text align="center" fontFamily={'Work Sans'}>#{product_id}</Text>
                     <Box align="center">
-                        <Img src={`${process.env.AWS_S3!}${product_id}.jpeg`} boxSize='360px'/>
+                        <Img src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product_id}.jpeg`} boxSize='360px'/>
                     </Box>
                     <Text>{productDetails.name}</Text>
                     <Text>{productDetails.description}</Text>

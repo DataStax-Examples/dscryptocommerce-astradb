@@ -8,9 +8,9 @@ const getAstraClient = async () => {
   if (astraClient === null) {
     astraClient = await createClient(
       {
-        astraDatabaseId: process.env.ASTRA_DB_ID,
-        astraDatabaseRegion: process.env.ASTRA_DB_REGION,
-        applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
+        astraDatabaseId: process.env.NEXT_PUBLIC_ASTRA_DB_ID,
+        astraDatabaseRegion: process.env.NEXT_PUBLIC_ASTRA_DB_REGION,
+        applicationToken: process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN,
     });}
   // console.log(astraClient);
   return astraClient;
