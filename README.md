@@ -4,9 +4,9 @@ The intent of this app is to showcase an app that works with data from both the 
 
 ## Requirements
 
-- DataStax Astra DB
+- DataStax Astra DB (stores operational data)
+- AWS S3 (stores product images)
 - Ploygon Wallet (ideally one each for Buyer and Seller)
-- AWS S3
 - Metamask
 
 ## Installation
