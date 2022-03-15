@@ -143,18 +143,26 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 </Button>
             </HStack>
             <VStack>
-                <Stack>
-                    <Text align="center" fontFamily={'Work Sans'}>#{product_id}</Text>
+                <Stack boxSize='50%' maxW='500px' boxShadow='dark-lg' p='6' rounded='md' bg='white'>
+                    <Text align="center" fontFamily={'Work Sans'}><strong>Product ID:</strong> #{product_id}</Text>
                     <Box align="center">
-                        <Img src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product_id}.jpeg`} boxSize='360px'/>
+                        <Img src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product_id}.jpeg`}/>
                     </Box>
-                    <Text>{productDetails.name}</Text>
-                    <Text>{productDetails.description}</Text>
-                    <Text><strong>Listed Price: </strong>${productDetails.price}</Text>
-                    <Text><strong>Sold by: </strong>{productDetails.seller_address}</Text>
-                    <Text><strong>Bid by: </strong>{productDetails.buyer_address}</Text>
-                    <Text><strong>STATUS: </strong>{productDetails.product_status}</Text>
-                    <Box  align="center">
+                    <Box align='center' bg={'white'} color={'black'}>
+                        <Text align={'center'}><strong>{productDetails.name}</strong></Text>
+                        <Text>{productDetails.description}</Text>
+                    </Box>
+
+                    <Box padding={'10px'}>
+                        <Text><strong>Listed Price: </strong>${productDetails.price}</Text>
+                        <Text><strong>Sold by: </strong>{productDetails.seller_address}</Text>
+                        <Text><strong>Bid by: </strong>{productDetails.buyer_address}</Text>
+                        <Text><strong>STATUS: </strong>{productDetails.product_status}</Text>
+                    </Box>
+
+
+
+                    <Box  align="center" paddingBottom={'10px'}>
                     {(() => {
                         switch(productDetails.product_status){
                             case 'DRAFT':
