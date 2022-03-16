@@ -144,7 +144,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
             </HStack>
             <VStack>
                 <Stack boxSize='50%' maxW='500px' boxShadow='dark-lg' p='6' rounded='md' bg='white'>
-                    <Text align="center" fontFamily={'Work Sans'}><strong>Product ID:</strong> #{product_id}</Text>
+                    <Text align="center" fontFamily={'Work Sans'}><strong>Product ID:</strong> {product_id}</Text>
                     <Box align="center">
                         <Img src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product_id}.jpeg`}/>
                     </Box>
