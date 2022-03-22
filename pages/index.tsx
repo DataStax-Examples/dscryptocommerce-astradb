@@ -112,7 +112,7 @@ const Home: NextPage<{ products: string[]}> = (props) => {
     //  }
 
     return(
-        <Box >
+        <Box>
             <HStack fontFamily={'Work Sans'} px={16} py={8} align={'center'} justify={'space-between'}>
                 <Link href="/">
                     <Button
@@ -147,22 +147,23 @@ const Home: NextPage<{ products: string[]}> = (props) => {
                     }
                 </Button>
             </HStack>
-<<<<<<< Updated upstream
             <Wrap px={16} py={4} fontFamily={'Work Sans'} justify={'normal'}>
+            <Wrap fontFamily={'Work Sans'} justify={'normal'} px={16} py={4} >
             {
                 active && account &&
                 (
                     props &&
                     props.products.map((product: any) => {
                         return(
+
                             <WrapItem key={product.product_id} maxW={'64'}>
-                                <Stack border={'1px'} borderColor={'blackAlpha.200'} shadow={'1px'} rounded={'xl'}>
+
+                                <Stack border={'1px'} borderColor={'blackAlpha.200'} shadow={'1px'} rounded={'xl'} >
                                     <Link href={`/${product.product_id}`}>
-                                    <a><Img 
+                                    <a><Img
                                         src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product.product_id}.jpeg`}  h={48} w={64} rounded={'xl'}/>
                                      </a></Link>
                                     <Stack p={2} spacing={4}>
-=======
             <Wrap fontFamily={'Work Sans'} justify={'normal'} px={16} py={4} >
                 {
                     active && account &&
@@ -172,20 +173,16 @@ const Home: NextPage<{ products: string[]}> = (props) => {
                             return(
 
                                 <WrapItem key={product.product_id} maxW={'64'}>
->>>>>>> Stashed changes
-
                                     <Stack border={'1px'} borderColor={'blackAlpha.200'} shadow={'1px'} rounded={'xl'} >
                                         <Link href={`/${product.product_id}`}>
-<<<<<<< Updated upstream
                                             <a>
-                                                <Heading as='h2' fontWeight={'semibold'} fontSize={'md'} fontFamily={'Rubik'}>{product.name}</Heading>
+                                                <Heading as='h2' color={'blue.600'} fontWeight={'semibold'} fontSize={'lg'} fontFamily={'Rubik'}>{product.name}</Heading>
                                             </a>
                                         </Link>
                                         <Text>{product.description}</Text>
                                         <Text>{product.price} USD</Text>
                                         <Button>
                                             {
-=======
                                             <a><Img
                                                 src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product.product_id}.jpeg`}  h={48} w={64} rounded={'xl'}/>
                                             </a></Link>
@@ -200,16 +197,17 @@ const Home: NextPage<{ products: string[]}> = (props) => {
                                             <Text><strong>Price:</strong> {product.price} USD</Text>
                                             <Text>
                                                 <strong>Status:</strong> {
->>>>>>> Stashed changes
+                                        <Text><strong>Description:</strong><br/> {product.description}</Text>
+                                        <Text><strong>Price:</strong> {product.price} USD</Text>
+                                        <Text>
+                                            <strong>Status:</strong> {
                                                 product.product_status === 'DRAFT' ?
                                                     'List as NFT' : product.product_status
                                             }
-<<<<<<< Updated upstream
                                         </Button>
-=======
                                             </Text>
                                         </Stack>
->>>>>>> Stashed changes
+                                        </Text>
                                     </Stack>
                                 </WrapItem>
                             )
