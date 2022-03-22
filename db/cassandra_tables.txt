@@ -25,3 +25,11 @@ values (2dc5294b-99f8-4b50-b0d9-32b4a885b687,'p2','LISTED',20.20,'p2','0x7099797
 
 insert into catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address) 
 values (2dc5294b-99f8-4b50-b0d9-32b4a885b685,'p3','LISTED',30.30,'p2','0x70997970C51812dc3A010C7d01b50e0d17dc79C8','22','0x8735dbd0e0cfF5C3bCb5FABCd948028a16017cfb');
+
+CREATE TABLE ACTIVITY_STREAM(
+    wallet_address text,
+    product_id text,
+    action text,
+    timestamp text,
+    PRIMARY KEY (wallet_address, timestamp)
+);
