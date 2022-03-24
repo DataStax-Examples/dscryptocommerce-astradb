@@ -42,7 +42,6 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         });
     }
 
-
     const processNft = async (
         productId: string,
         operation: string,
@@ -167,7 +166,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                 </Button>
             </HStack>
             <VStack>
-                <Stack boxSize='50%' maxW='500px' boxShadow='dark-lg' p='6' rounded='md' bg='white'>
+                <Stack boxSize='50%' maxW='500px' boxShadow='dark-lg' p='6' mb={'100px'} rounded='md' bg='white'>
                     <Text align="center" fontFamily={'Work Sans'}><strong>Product ID:</strong> {product_id}</Text>
                     <Box align="center">
                         <Img src={`${process.env.NEXT_PUBLIC_AWS_S3!}${product_id}.jpeg`}/>
@@ -183,7 +182,6 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                         <Text><strong>Bid by: </strong>{productDetails.buyer_address}</Text>
                         <Text><strong>STATUS: </strong>{productDetails.product_status}</Text>
                     </Box>
-
 
 
                     <Box  align="center" paddingBottom={'10px'}>
