@@ -184,7 +184,6 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
                     </Box>
 
 
-
                     <Box  align="center" paddingBottom={'10px'}>
                     {(() => {
                         switch(productDetails.product_status){
