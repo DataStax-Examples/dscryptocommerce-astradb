@@ -1,8 +1,5 @@
 DROP TABLE CATALOG;
-
-DROP TABLE PRODUCTS;
-DROP TABLE ORDERS;
-DROP TABLE PAYMENTS;
+DROP TABLE ACTIVITY_STREAM;
 
 CREATE TABLE CATALOG(
     product_id uuid,
@@ -15,16 +12,6 @@ CREATE TABLE CATALOG(
     buyer_address text,
     PRIMARY KEY (product_id)
 );
-
-
-insert into catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address) 
-values (2dbca950-248f-4dda-b5fc-3f974e578c57,'p1','DRAFT',10.10,'p1','0x7C39AdAEB766E1BbB614FC1B03b4Fe77644Ddc17','21','0x8735dbd0e0cfF5C3bCb5FABCd948028a16017cfb');
-
-insert into catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address) 
-values (2dc5294b-99f8-4b50-b0d9-32b4a885b687,'p2','LISTED',20.20,'p2','0x70997970C51812dc3A010C7d01b50e0d17dc79C8','22','0x8735dbd0e0cfF5C3bCb5FABCd948028a16017cfb');
-
-insert into catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address) 
-values (2dc5294b-99f8-4b50-b0d9-32b4a885b685,'p3','LISTED',30.30,'p2','0x70997970C51812dc3A010C7d01b50e0d17dc79C8','22','0x8735dbd0e0cfF5C3bCb5FABCd948028a16017cfb');
 
 CREATE TABLE ACTIVITY_STREAM(
     wallet_address text,
