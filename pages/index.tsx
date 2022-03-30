@@ -19,11 +19,8 @@ AWS.config.update({
     accessKeyId: process.env.NEXT_PUBLIC_ACCESSKEYID,
     secretAccessKey: process.env.NEXT_PUBLIC_SECRETACESSKEY
 })
-
-const myBucket = new AWS.S3({
-    params: { Bucket: S3_BUCKET},
-    region: REGION,
-})
+console.log(S3_BUCKET)
+const s3 = new AWS.S3()
 
 const weiMultiplier = ethers.BigNumber.from("10").pow(18)
 
@@ -60,19 +57,13 @@ const Home: NextPage<{ products: string[]}> = (props) => {
 
         });
         const params = {
-            ACL: 'public-read',
+            Bucket: S3_BUCKET,
+            Key: `${uid}.jpeg`,
             Body: image,
-            Key: `${uid}.jpeg`
-        };
-
-        const err = myBucket.putObject(params)
-            .on('httpUploadProgress', (evt) => {
-                setProgress(Math.round((evt.loaded / evt.total) * 100))
-            })
-            .send((err) => {
-                if (err) console.log(err)
-            })
-        console.log(err)
+            ContentEncoding: 'base64',
+            ContentType: 'image/jpeg'
+          };
+        await s3.putObject(params).promise();
         setIsLoading(false)
         onClose()
         window.location.href=`/${uid}`
