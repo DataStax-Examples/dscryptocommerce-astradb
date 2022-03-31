@@ -4,9 +4,19 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { ABI, DEPLOYED_ADDRESS } from '../config/escrow'
+import { ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS  } from '../config/escrow'
 import { getProduct } from "./api/astradb";
 import Link from 'next/link'
+
+let DEPLOYED_ADDRESS = ''
+
+const NETWORK = process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK
+
+if (NETWORK === "Rinkeby") {
+    DEPLOYED_ADDRESS = RINKBEY_ADDRESS
+  } else {
+    DEPLOYED_ADDRESS = POLYGON_ADDRESS
+  }
 
 const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
     productDetails
@@ -15,6 +25,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
     const router = useRouter()
     const { product_id } = router.query
     const signer = library?.getSigner()
+
     const contract = new ethers.Contract(DEPLOYED_ADDRESS, ABI, signer)
     const ASTRA_SESSION_URL = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/activity_stream/`
     const dateTime = new Date().toISOString();
@@ -58,7 +69,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
             const listNftTx = await contract.listNft(price_in_wei, productId, {
                 value: price_in_wei.div('4')
             })
-            const session_res = await trackSession(dateTime, account, productId, "List NFT Clicked", ASTRA_SESSION_URL);
+            // const session_res = await trackSession(dateTime, account, productId, "List NFT Clicked", ASTRA_SESSION_URL);
             if(listNftTx){
                 const receipt = await listNftTx.wait()
                 const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`

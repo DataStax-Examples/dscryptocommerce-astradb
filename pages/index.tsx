@@ -4,7 +4,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 import { ethers } from 'ethers'
-import { ABI, DEPLOYED_ADDRESS } from '../config/escrow'
+import { ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS  } from '../config/escrow'
 import { getProducts } from "./api/astradb";
 import axios from 'axios'
 import Link from 'next/link'
@@ -22,6 +22,16 @@ AWS.config.update({
 console.log(S3_BUCKET)
 const s3 = new AWS.S3()
 
+let DEPLOYED_ADDRESS = ''
+
+const NETWORK = process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK
+
+if (NETWORK === "Rinkeby") {
+    DEPLOYED_ADDRESS = RINKBEY_ADDRESS
+  } else {
+    DEPLOYED_ADDRESS = POLYGON_ADDRESS
+  }
+  
 const weiMultiplier = ethers.BigNumber.from("10").pow(18)
 
 const Home: NextPage<{ products: string[]}> = (props) => {
