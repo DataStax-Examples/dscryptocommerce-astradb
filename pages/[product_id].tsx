@@ -254,7 +254,6 @@ export default ProductDetails
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const productId = context.params!.product_id;
   const product = await getProduct(productId as string);
-  console.log(product![0]);
   return {
     props: {
       productDetails: product![0]
