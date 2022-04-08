@@ -60,7 +60,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         ) => {
         if(operation==="listNft")
         {
-            const price = '0.1'
+            const price = '0.01'
             const price_in_wei = ethers.utils.parseEther(price)
             const dummyTx = await contract.callStatic.listNft(price_in_wei, productId, {
                 value: price_in_wei.div('4')
@@ -83,7 +83,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         }
         if(operation==="bidNft")
         {
-            const price = '0.125'
+            const price = '0.0125'
             const price_in_wei = ethers.utils.parseEther(price)
             const bidNftTx = await contract.bidNft(parseInt(tokenId), {
             value: price_in_wei,

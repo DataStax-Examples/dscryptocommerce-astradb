@@ -20,8 +20,9 @@ const getAstraClient = async () => {
 
 export const getProducts = async() => {
     const client = await getAstraClient();
+    const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
     const { status, data}  = await client.get(
-        `/api/rest/v2/keyspaces/demoks/catalog/rows/`
+        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/rows/`
     );
     // console.log(data);
     return data;
@@ -29,8 +30,9 @@ export const getProducts = async() => {
 
 export const getProduct = async(id) => {
   const client = await getAstraClient();
+  const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
   const { status, data}  = await client.get(
-      `/api/rest/v2/keyspaces/demoks/catalog/${id}`
+      `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${id}`
   );
   // console.log(data);
   return data;
@@ -38,6 +40,7 @@ export const getProduct = async(id) => {
 
 // export const trackSession = async(dateTime, account, productId, session_message) => {
 //     const client = await getAstraClient();
+// const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
 //     const { status, data } = await client.post(
 //         `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/activity_stream`,
 //         {
@@ -50,6 +53,7 @@ export const getProduct = async(id) => {
 
 // export const updateProduct = async(id, product_status, account) => {
 //     const client = await getAstraClient();
+//     const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
 //     const { status, data } = await client.patch (
 //         `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${id}`,
 //         {
