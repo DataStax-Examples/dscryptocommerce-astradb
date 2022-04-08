@@ -252,8 +252,8 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
 export default ProductDetails
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const productId = context.params!.product_id
-  const product = await getProduct(productId);
+  const productId = context.params!.product_id;
+  const product = await getProduct(productId as string);
   console.log(product![0]);
   return {
     props: {

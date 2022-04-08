@@ -54,14 +54,10 @@ if (NETWORK === "Rinkeby") {
   DEPLOYED_ADDRESS = POLYGON_ADDRESS
 }
 
-const weiMultiplier = ethers.BigNumber.from("10").pow(18)
-
 const Home: NextPage<{ products: string[] }> = (props) => {
   const {account, activateBrowserWallet, active, chainId, library} = useEthers()
-  // const [ myCatalog, setMyCatalog ] = useState<any[]>([])
   const {onOpen, onClose, isOpen} = useDisclosure()
   const [isLoading, setIsLoading] = useState(false)
-  const [progress, setProgress] = useState('');
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
@@ -72,7 +68,7 @@ const Home: NextPage<{ products: string[] }> = (props) => {
     setIsLoading(true)
     const uid = v4()
     const url = `${ASTRA_URL}/catalog/`
-    const data = await axios.post(url, {
+    await axios.post(url, {
       "name": name,
       "description": description,
       "price": price,
@@ -99,16 +95,6 @@ const Home: NextPage<{ products: string[] }> = (props) => {
     setIsLoading(false)
     onClose()
     window.location.href = `/${uid}`
-  }
-
-  const listNft = async (productId: string) => {
-    const price = '0.2'
-    const price_in_wei = ethers.utils.parseEther(price)
-    const signer = library?.getSigner()
-    const contract = new ethers.Contract(DEPLOYED_ADDRESS, ABI, signer)
-    const listNft = await contract.listNft(price_in_wei, productId, {
-      value: price_in_wei.div('4')
-    })
   }
 
   return (
