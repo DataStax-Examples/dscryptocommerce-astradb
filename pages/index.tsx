@@ -27,7 +27,7 @@ import {useEffect, useState} from 'react'
 import {v4} from 'uuid'
 import {ethers} from 'ethers'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
-import {getProducts} from "./api/astradb";
+import {getProducts} from "../utils/astradb";
 import axios from 'axios'
 import Link from 'next/link'
 

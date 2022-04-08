@@ -5,7 +5,7 @@ import {ethers} from 'ethers'
 import type {GetServerSideProps, InferGetServerSidePropsType, NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
-import {getProduct} from "./api/astradb";
+import {getProduct} from "../utils/astradb";
 import Link from 'next/link'
 
 let DEPLOYED_ADDRESS = ''
