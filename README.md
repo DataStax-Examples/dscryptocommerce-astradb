@@ -6,7 +6,7 @@ The intent of this app is to showcase an app that works with data from both the 
 
 - DataStax Astra DB (stores operational data)
 - AWS S3 (stores product images)
-- Ploygon Wallet (ideally one each for Buyer and Seller)
+- Polygon Wallet (ideally one each for Buyer and Seller)
 - Metamask
 
 ## Installation
@@ -18,5 +18,3 @@ yarn install
 ```shell
 yarn dev
 ```
-
-
