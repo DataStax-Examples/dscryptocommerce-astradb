@@ -1,7 +1,6 @@
 const {createClient} = require("@astrajs/rest");
 
-
-const getAstraClient = async () => {
+export const getAstraClient = async () => {
   return await createClient(
     {
       astraDatabaseId: process.env.NEXT_PUBLIC_ASTRA_DB_ID,
@@ -10,24 +9,6 @@ const getAstraClient = async () => {
       astraDatabaseKeyspace: process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE,
     });
 };
-
-export const getProducts = async () => {
-  const client = await getAstraClient();
-  const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
-  const {data} = await client.get(
-    `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/rows/`
-  );
-  return data;
-}
-
-export const getProduct = async (id: string) => {
-  const client = await getAstraClient();
-  const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
-  const {data} = await client.get(
-    `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${id}`
-  );
-  return data;
-}
 
 // export const trackSession = async(dateTime, account, productId, session_message) => {
 //     const client = await getAstraClient();

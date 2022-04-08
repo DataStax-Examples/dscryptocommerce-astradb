@@ -17,19 +17,17 @@ import {
   Text,
   Textarea,
   useDisclosure,
-  VStack,
   Wrap,
   WrapItem
 } from '@chakra-ui/react'
 import {useEthers} from '@usedapp/core'
-import type {GetServerSideProps, InferGetServerSidePropsType, NextPage} from 'next'
-import {useEffect, useState} from 'react'
+import type { NextPage} from 'next'
+import {useState} from 'react'
 import {v4} from 'uuid'
-import {ethers} from 'ethers'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
-import {getProducts} from "../utils/astradb";
 import axios from 'axios'
 import Link from 'next/link'
+import { getProducts } from '../utils/products'
 
 import AWS from 'aws-sdk'
 import {PutObjectRequest} from "aws-sdk/clients/s3";
@@ -216,7 +214,7 @@ const Home: NextPage<{ products: string[] }> = (props) => {
 export default Home
 
 export async function getServerSideProps({preview = false}) {
-  const products = (await getProducts());
+  const products = await getProducts();
   return {
     props: {products}
   };

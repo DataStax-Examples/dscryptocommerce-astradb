@@ -5,7 +5,7 @@ import {ethers} from 'ethers'
 import type {GetServerSideProps, InferGetServerSidePropsType, NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
-import {getProduct} from "../utils/astradb";
+import { getProduct } from '../utils/products'
 import Link from 'next/link'
 
 let DEPLOYED_ADDRESS = ''
@@ -252,8 +252,8 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
 export default ProductDetails
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const productId = context.params!.product_id;
-  const product = await getProduct(productId as string);
+  const id: string = context.params!.product_id ?? '';
+  const product = await getProduct(id);
   return {
     props: {
       productDetails: product![0]
