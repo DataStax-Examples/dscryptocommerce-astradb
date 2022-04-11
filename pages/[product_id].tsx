@@ -5,7 +5,7 @@ import {ethers} from 'ethers'
 import type {GetServerSideProps, InferGetServerSidePropsType, NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
-import { getProduct } from '../utils/products'
+import {getProduct} from '../utils/products'
 import Link from 'next/link'
 
 let DEPLOYED_ADDRESS = ''
@@ -27,30 +27,12 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
   const signer = library?.getSigner()
 
   const contract = new ethers.Contract(DEPLOYED_ADDRESS, ABI, signer)
-  const ASTRA_SESSION_URL = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/activity_stream/`
+  // const ASTRA_SESSION_URL = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/activity_stream/`
   const dateTime = new Date().toISOString();
   const headers = {
     'X-Cassandra-Token': `${process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN}`,
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
-  }
-
-  // Tracking Button Clicks in Application and Posting to Activity Stream Table
-  const trackSession = async (
-    dateTime: string,
-    account: string,
-    productId: string,
-    session_message: string = " ",
-    url: string
-  ) => {
-    const session_request = await axios.post(url, {
-      "timestamp": dateTime,
-      "wallet_address": account,
-      "product_id": productId,
-      "action": session_message
-    }, {
-      headers: headers
-    });
   }
 
   const processNft = async (
@@ -68,16 +50,27 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
       const listNftTx = await contract.listNft(price_in_wei, productId, {
         value: price_in_wei.div('4')
       })
-      // const session_res = await trackSession(dateTime, account, productId, "List NFT Clicked", ASTRA_SESSION_URL);
+      // Axios Track Session to API route - List NFT Clicked
+      await axios('/api/session', {
+        "timestamp": dateTime,
+        "wallet_address": account,
+        "product_id": productId,
+        "action": "List NFT Clicked"
+      });
       if (listNftTx) {
         const receipt = await listNftTx.wait()
-        const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
-        const res = await axios.patch(astra_url, {
-          "product_status": "LISTED",
+        // const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
+        // const res = await axios.patch(astra_url, {
+        //   "product_status": "LISTED",
+        //   "tokenid": expectedTokenId
+        // }, {
+        //   headers: headers
+        // });
+        await axios.patch('/api/update', {
+          "product_status": "BOUGHT",
           "tokenid": expectedTokenId
-        }, {
-          headers: headers
         });
+
       }
     }
     if (operation === "bidNft") {
@@ -87,10 +80,20 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         value: price_in_wei,
         gasLimit: ethers.BigNumber.from('100000')
       })
-      const session_res = await trackSession(dateTime, account ?? '', productId, "Bid NFT Clicked", ASTRA_SESSION_URL);
+      // Axios Track Session for API Route - Bid NFT Clicked
+      // await axios('/api/session', {
+      //   "timestamp": dateTime,
+      //   "wallet_address": account,
+      //   "product_id": productId,
+      //   "action": "Bid NFT Clicked"
+      // });
       if (bidNftTx) {
         const receipt = await bidNftTx.wait()
         if (receipt) {
+          // await axios.patch(/api/update, {
+          //   "product_status": "BOUGHT",
+          //   "buyer_address": account
+          // });
           const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
           const res = await axios.patch(astra_url, {
             "product_status": "BOUGHT",
@@ -105,7 +108,13 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
       const shipNftTx = await contract.shipNft(parseInt(tokenId), {
         gasLimit: ethers.BigNumber.from('120000')
       })
-      const session_res = await trackSession(dateTime, account ?? '', productId, "Ship NFT Clicked", ASTRA_SESSION_URL);
+      // Axios Track Session for API Route - Ship NFT Clicked
+      // await axios('/api/session', {
+      //   "timestamp": dateTime,
+      //   "wallet_address": account,
+      //   "product_id": productId,
+      //   "action": "Ship NFT Clicked"
+      // });
       if (shipNftTx) {
         const receipt = await shipNftTx.wait()
         if (receipt) {
@@ -122,7 +131,13 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
       const receiveNftTx = await contract.receiveNft(parseInt(tokenId), {
         gasLimit: ethers.BigNumber.from('100000')
       })
-      const session_res = await trackSession(dateTime, account ?? '', productId, "Receive NFT Clicked", ASTRA_SESSION_URL);
+      // Axios Track Session for API Route - Receive NFT Clicked
+      // await axios('/api/session', {
+      //   "timestamp": dateTime,
+      //   "wallet_address": account,
+      //   "product_id": productId,
+      //   "action": "Receive NFT Clicked"
+      // });
       if (receiveNftTx) {
         const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
         const res = await axios.patch(astra_url, {
