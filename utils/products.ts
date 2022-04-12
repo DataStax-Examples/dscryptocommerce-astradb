@@ -17,14 +17,19 @@ export const getProduct = async (id: string) => {
   return data;
 };
 
-export const trackSession = async(dateTime, account, productId, session_message) => {
-    const client = await getAstraClient();
-    const { status, data } = await client.post(
-        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/activity_stream`,
-        {
-        timestamp: dateTime,
-        wallet_address: account,
-        product_id: productId,
-        action: session_message
-    });
-}
+export const addDraft = async (name: string, description: string, price: number, uid: uuid, account: string ) => {
+  const client = await getAstraClient();
+  const { status, data } = await client.post(
+      `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/`,
+      {
+        "name": name,
+        "description": description,
+        "price": price,
+        "product_status": "DRAFT",
+        "product_id": uid,
+        "seller_address": account
+      }
+  );
+    console.log("addDraft Function Called!")
+  return data;
+};

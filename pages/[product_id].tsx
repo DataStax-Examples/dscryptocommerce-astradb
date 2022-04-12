@@ -25,15 +25,8 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter()
   const {product_id} = router.query
   const signer = library?.getSigner()
-
   const contract = new ethers.Contract(DEPLOYED_ADDRESS, ABI, signer)
-  // const ASTRA_SESSION_URL = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/activity_stream/`
   const dateTime = new Date().toISOString();
-  const headers = {
-    'X-Cassandra-Token': `${process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN}`,
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  }
 
   const processNft = async (
     productId: string,
@@ -51,7 +44,7 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         value: price_in_wei.div('4')
       })
       // Axios Track Session to API route - List NFT Clicked
-      await axios('/api/session', {
+      await axios.post('/api/session', {
         "timestamp": dateTime,
         "wallet_address": account,
         "product_id": productId,
@@ -59,18 +52,11 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
       });
       if (listNftTx) {
         const receipt = await listNftTx.wait()
-        // const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
-        // const res = await axios.patch(astra_url, {
-        //   "product_status": "LISTED",
-        //   "tokenid": expectedTokenId
-        // }, {
-        //   headers: headers
-        // });
-        await axios.patch('/api/update', {
-          "product_status": "BOUGHT",
+        await axios.patch('/api/updates/updateList', {
+          "id": product_id,
+          "product_status": "LISTED",
           "tokenid": expectedTokenId
         });
-
       }
     }
     if (operation === "bidNft") {
@@ -81,25 +67,19 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         gasLimit: ethers.BigNumber.from('100000')
       })
       // Axios Track Session for API Route - Bid NFT Clicked
-      // await axios('/api/session', {
-      //   "timestamp": dateTime,
-      //   "wallet_address": account,
-      //   "product_id": productId,
-      //   "action": "Bid NFT Clicked"
-      // });
+      await axios.post('/api/session', {
+        "timestamp": dateTime,
+        "wallet_address": account,
+        "product_id": productId,
+        "action": "Bid NFT Clicked"
+      });
       if (bidNftTx) {
         const receipt = await bidNftTx.wait()
         if (receipt) {
-          // await axios.patch(/api/update, {
-          //   "product_status": "BOUGHT",
-          //   "buyer_address": account
-          // });
-          const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
-          const res = await axios.patch(astra_url, {
+          await axios.patch('/api/updates/updateBid', {
+            "id": product_id,
             "product_status": "BOUGHT",
             "buyer_address": account
-          }, {
-            headers: headers
           });
         }
       }
@@ -109,20 +89,18 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         gasLimit: ethers.BigNumber.from('120000')
       })
       // Axios Track Session for API Route - Ship NFT Clicked
-      // await axios('/api/session', {
-      //   "timestamp": dateTime,
-      //   "wallet_address": account,
-      //   "product_id": productId,
-      //   "action": "Ship NFT Clicked"
-      // });
+      await axios.post('/api/session', {
+        "timestamp": dateTime,
+        "wallet_address": account,
+        "product_id": productId,
+        "action": "Ship NFT Clicked"
+      });
       if (shipNftTx) {
         const receipt = await shipNftTx.wait()
         if (receipt) {
-          const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
-          const res = await axios.patch(astra_url, {
-            "product_status": "SHIPPED"
-          }, {
-            headers: headers
+          await axios.patch('/api/updates/updateShip', {
+            "id": product_id,
+            "product_status": "SHIPPED",
           });
         }
       }
@@ -132,18 +110,16 @@ const ProductDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideP
         gasLimit: ethers.BigNumber.from('100000')
       })
       // Axios Track Session for API Route - Receive NFT Clicked
-      // await axios('/api/session', {
-      //   "timestamp": dateTime,
-      //   "wallet_address": account,
-      //   "product_id": productId,
-      //   "action": "Receive NFT Clicked"
-      // });
+      await axios.post('/api/session', {
+        "timestamp": dateTime,
+        "wallet_address": account,
+        "product_id": productId,
+        "action": "Receive NFT Clicked"
+      });
       if (receiveNftTx) {
-        const astra_url = `${process.env.NEXT_PUBLIC_ASTRA_DB_URL}/catalog/${productId}`
-        const res = await axios.patch(astra_url, {
-          "product_status": "RECEIVED"
-        }, {
-          headers: headers
+        await axios.patch('/api/updates/updateReceive', {
+          "id": product_id,
+          "product_status": "RECEIVED",
         });
       }
     }

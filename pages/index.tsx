@@ -23,7 +23,7 @@ import {
 import {useEthers} from '@usedapp/core'
 import type { NextPage} from 'next'
 import {useState} from 'react'
-import {v4} from 'uuid'
+import {v4 as uuidv4} from 'uuid'
 import {ABI, RINKBEY_ADDRESS, POLYGON_ADDRESS} from '../config/escrow'
 import axios from 'axios'
 import Link from 'next/link'
@@ -64,7 +64,8 @@ const Home: NextPage<{ products: string[] }> = (props) => {
 
   const addProductToDraft = async () => {
     setIsLoading(true)
-    const uid = v4()
+    const uid = uuidv4()
+    console.log(uid)
     const url = `${ASTRA_URL}/catalog/`
     await axios.post(url, {
       "name": name,
@@ -82,6 +83,12 @@ const Home: NextPage<{ products: string[] }> = (props) => {
       }
 
     });
+    // await axios.post('api/products/productDraft', {
+    //   "name": name,
+    //   "description": description,
+    //   "price": price,
+    //   "seller_address": account
+    // });
     const params: PutObjectRequest = {
       Bucket: S3_BUCKET ?? '',
       Key: `${uid}.jpeg`,
@@ -213,9 +220,9 @@ const Home: NextPage<{ products: string[] }> = (props) => {
 
 export default Home
 
-export async function getServerSideProps({preview = false}) {
-  const products = await getProducts();
+export async function getServerSideProps({ preview = false }) {
+  const products = (await getProducts());
   return {
-    props: {products}
+    props: { products }
   };
 }

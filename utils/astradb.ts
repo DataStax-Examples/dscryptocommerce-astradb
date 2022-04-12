@@ -10,7 +10,7 @@ export const getAstraClient = async () => {
     });
 };
 
-export const trackSession = async(dateTime, account, productId, session_message) => {
+export const trackSession = async(dateTime: string, account: string, productId: string, session_message: string) => {
     const client = await getAstraClient();
     const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
     const { status, data } = await client.post(
@@ -23,16 +23,54 @@ export const trackSession = async(dateTime, account, productId, session_message)
     })
 }
 
-export const updateProduct = async(id, product_status, account) => {
+export const updateListNFT = async(productId: string, product_status: string, tokenid: string) => {
     const client = await getAstraClient();
     const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
     const { status, data } = await client.patch (
-        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${id}`,
+        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${productId}`,
+        {
+            product_status: product_status,
+            tokenid: tokenid
+        }
+    );
+    console.log("Update List Success!")
+}
+
+export const updateBidNFT = async(productId: string, product_status: string, account: string) => {
+    const client = await getAstraClient();
+    const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
+    const { status, data } = await client.patch (
+        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${productId}`,
         {
             product_status: product_status,
             buyer_address: account
         }
     );
+    console.log("Update Bid Success!")
+}
+
+export const updateShipNFT = async(productId: string, product_status: string) => {
+    const client = await getAstraClient();
+    const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
+    const { status, data } = await client.patch (
+        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${productId}`,
+        {
+            product_status: product_status,
+        }
+    );
+    console.log("Update Bid Success!")
+}
+
+export const updateReceiveNFT = async(productId: string, product_status: string) => {
+    const client = await getAstraClient();
+    const astraDatabaseKeyspace = process.env.NEXT_PUBLIC_ASTRA_DB_KEYSPACE;
+    const { status, data } = await client.patch (
+        `/api/rest/v2/keyspaces/${astraDatabaseKeyspace}/catalog/${productId}`,
+        {
+            product_status: product_status,
+        }
+    );
+    console.log("Update Receive Success!")
 }
 
 
