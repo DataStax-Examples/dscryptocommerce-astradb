@@ -21,6 +21,8 @@ export const trackSession = async(dateTime: string, account: string, productId: 
         product_id: productId,
         action: session_message
     })
+    console.log("Click Data added to Astra! Status: " + status);
+    console.log(data);
 }
 
 export const updateListNFT = async(productId: string, product_status: string, tokenid: string) => {
@@ -33,7 +35,8 @@ export const updateListNFT = async(productId: string, product_status: string, to
             tokenid: tokenid
         }
     );
-    console.log("Update List Success!")
+    console.log("Update List Success! Status: " + status);
+    console.log(data);
 }
 
 export const updateBidNFT = async(productId: string, product_status: string, account: string) => {
@@ -46,7 +49,8 @@ export const updateBidNFT = async(productId: string, product_status: string, acc
             buyer_address: account
         }
     );
-    console.log("Update Bid Success!")
+    console.log("Update Bid Success! Status: " + status);
+    console.log(data);
 }
 
 export const updateShipNFT = async(productId: string, product_status: string) => {
@@ -58,7 +62,8 @@ export const updateShipNFT = async(productId: string, product_status: string) =>
             product_status: product_status,
         }
     );
-    console.log("Update Bid Success!")
+    console.log("Update Ship Success! Status: " + status);
+    console.log(data);
 }
 
 export const updateReceiveNFT = async(productId: string, product_status: string) => {
@@ -70,7 +75,8 @@ export const updateReceiveNFT = async(productId: string, product_status: string)
             product_status: product_status,
         }
     );
-    console.log("Update Receive Success!")
+    console.log("Update Receive Success! Status: " + status);
+    console.log(data);
 }
 
 

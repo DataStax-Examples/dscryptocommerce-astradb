@@ -6,9 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const description = req.body.description;
     const price = req.body.price;
     const account = req.body.seller_address
-    const uid = req.body.uid
-    console.log(name, description, price, account, uid)
-    // const uid = req.body.uid
+    const uid = req.body.product_id
     if (req.method === 'POST') {
         const data = await addDraft(name, description, price, uid, account);
         res.status(200).json(data);
