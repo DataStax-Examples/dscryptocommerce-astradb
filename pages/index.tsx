@@ -65,30 +65,13 @@ const Home: NextPage<{ products: string[] }> = (props) => {
   const addProductToDraft = async () => {
     setIsLoading(true)
     const uid = uuidv4()
-    console.log(uid)
-    const url = `${ASTRA_URL}/catalog/`
-    await axios.post(url, {
+    await axios.post('api/products/productDraft', {
       "name": name,
       "description": description,
       "price": price,
-      "product_status": "DRAFT",
-      "product_id": uid,
-      "seller_address": account
-    }, {
-      headers: {
-        // @ts-ignore
-        'X-Cassandra-Token': process.env.NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN,
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
-
+      "seller_address": account,
+      "product_id": uid
     });
-    // await axios.post('api/products/productDraft', {
-    //   "name": name,
-    //   "description": description,
-    //   "price": price,
-    //   "seller_address": account
-    // });
     const params: PutObjectRequest = {
       Bucket: S3_BUCKET ?? '',
       Key: `${uid}.jpeg`,
