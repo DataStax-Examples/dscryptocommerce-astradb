@@ -1,6 +1,3 @@
-DROP TABLE CATALOG;
-DROP TABLE ACTIVITY_STREAM;
-
 CREATE TABLE CATALOG(
     product_id uuid,
     description text,
@@ -20,3 +17,25 @@ CREATE TABLE ACTIVITY_STREAM(
     timestamp text,
     PRIMARY KEY (wallet_address, timestamp)
 );
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (ccf8bde3-3940-476d-a40d-6a0cf4161e67,'Put the finishing touch on your serene space with this two-piece print set, perfect for yoga studios and prayer rooms. Showcasing tranquil hand symbols adorned with henna and bangles, each offers neutral hues of brown and blush with light starry details.','RECEIVED', 48.99 ,'Peace and Namaste','0xc9E886f5CaF24A077765d826f2370D480E21A5b1','21','0x66A22Bb26500eD1BCcd9068d38e800AaC1098f47');
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (9b37b091-a112-4589-acec-171e1b54b738,'Bring sleek sophistication and chic flair to your walls with this beautiful wall art. Maps may seem like a hallmark of traditional aesthetics palette it’s a perfect fit for contemporary spaces. It showcases an antiqued world map motif with hand-embellished brushstroke.','RECEIVED', 52.99,'Old World Map Blue','0xc9E886f5CaF24A077765d826f2370D480E21A5b1','22','0x66A22Bb26500eD1BCcd9068d38e800AaC1098f47');
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (33791cb1-5276-447d-9104-c8813cf23730,'A premium hand-stretched gallery-wrapped canvas print was created to last. Featuring a beveled solid wood stretcher bar, each piece comes ready to hand. Each piece is made to order. Built to Last. Each piece comes ready to hang.','DRAFT', 22.99,'Stallion I - Wrapped Canvas Print','0xc9E886f5CaF24A077765d826f2370D480E21A5b1','23','0x66A22Bb26500eD1BCcd9068d38e800AaC1098f47');
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (d59bb923-3d74-498d-938f-dca1dabb172a,'Ready to hang. A premium hand-stretched gallery canvas print was created to last. Featuring a beveled wood stretcher bar, each piece comes ready to hand. Built to last. Each piece comes ready to hang. Fade and water-resistant. Made domestically.','DRAFT', 41.99,'Sunflower Cheer - Wrapped Canvas Painting','0xc9E886f5CaF24A077765d826f2370D480E21A5b1','24','0x66A22Bb26500eD1BCcd9068d38e800AaC1098f47');
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (38873edd-3ce3-4be8-a324-2c1d943e4565,'High definition giclee modern canvas printing artwork, a perfect gift for your relatives and friends on birthday, wedding day, anniversary, festival. Built to last. Each piece comes ready to hang. Fade and water-resistant. Made domestically.','DRAFT', 33.99,'Zen Stones Candles And Bamboo','0xc9E886f5CaF24A077765d826f2370D480E21A5b1','25','0x66A22Bb26500eD1BCcd9068d38e800AaC1098f47');
+
+insert into ecommerce.catalog(product_id,description,product_status,price,name,seller_address,tokenId,buyer_address)
+values (19dea9af-ceb0-4e00-82b0-5a35acb70148,'The Solid Wood Mounted Canvas Prints are stylish, attractive and suitable for any contemporary, modern, vintage or retro decor indoor wall art','DRAFT', 27.99,'Aurora Scenery Painting','0xDee37c9A368924AE591AF4FcDE74332C3c29bc9f','43','0x2A6BD70F5c95311bBDcCafde848eE60e63674f08');
+
+
+SELECT * from ecommerce.catalog;
+SELECT * from ecommerce.activity_stream;

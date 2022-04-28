@@ -38,7 +38,7 @@ yarn-error.log*
 *.tsbuildinfo
 
 node_modules
-.env.local
+.env
 coverage
 coverage.json
 typechain
