@@ -8,10 +8,10 @@ This application will showcase how to interact with data from both a Serverless 
 - Metamask Wallet
 - AWS S3 (stores product images)
 
-# CryptoCommerce 
-*30 min, Medium, [Start Building](INSTRUCTIONS_LINK)*
+# CryptoCommerce
+*30 min, Medium, [Start Building](#Start-Building)*
 
-![image](./instruction_images/hero_image.png)
+![image](images/instruction_images/hero_image.png)
 
 This application demo will walk through a series of transactions between a buyer and seller. The transactions demonstrated will be:
 * Seller listing the product (listing fee: 0.025ETH)
@@ -19,7 +19,7 @@ This application demo will walk through a series of transactions between a buyer
 * Seller will ship the product (returned the listing fee: 0.025ETH)
 * Buyer will confirm receipt of the product (returned the listing fee: 0.025ETH | seller receives product price: 0.1ETH)
 
-![image](./instruction_images/transactions.png)
+![image](images/instruction_images/transactions.png)
 
 ## Objectives
 * Set up a Metamask Wallet
@@ -29,10 +29,13 @@ This application demo will walk through a series of transactions between a buyer
 ## Prerequisites
 Let's do some initial setup:
 1. Creating a Serverless Database with AstraDB
-2. Download and install the [Metamask](https://metamask.io/) browser extension
-3. Connect your wallet to the Rinkeby Testnet
-4. Create multiple accounts within Metamask
-5. Fund the wallet with Test Tokens using the [Rinkeby Faucet](https://rinkebyfaucet.com/)
+2. Set up your Amazon S3 Bucket
+3. Download and install the [Metamask](https://metamask.io/) browser extension
+4. Connect your wallet to the Rinkeby Testnet
+5. Create multiple accounts within Metamask
+6. Fund the wallet with Test Tokens using the [Rinkeby Faucet](https://rinkebyfaucet.com/)
+
+## Start Building
 
 ### DataStax Astra
 <!--- enter a unique UTM_CODE for your sample app below --->
@@ -57,8 +60,16 @@ Let's do some initial setup:
 7. Select `Admin User` for the role for this Sample App and then generate the token. Download the CSV so that we can use the credentials we need later.
    ![image](https://raw.githubusercontent.com/DataStax-Examples/sample-app-template/master/screenshots/astra-db-settings-token.png)
 
-8. After you have your Application Token, head to the database connect screen and copy the connection information that we'll need later. We'll replace `ASTRA_DB_APPLICATION_TOKEN` with the `Token` value that is part of your Application Token.
-   ![image](https://raw.githubusercontent.com/DataStax-Examples/sample-app-template/master/screenshots/astra-db-connect.png)
+8. After you have your Application Token, head to the database connect screen and copy the connection information. Add your `ASTRA DATABASE ID`, `ASTRA DATABASE REGION`, `KEYSPACE NAME`, AND `TOKEN VALUE` to the .env.example file. Save that file as a `.env` file.
+   ![image](images/instruction_images/astra-connect.png)
+```angular2html
+NEXT_PUBLIC_BLOCKCHAIN_NETWORK=Rinkeby
+NEXT_PUBLIC_ASTRA_DB_URL=https://${NEXT_PUBLIC_ASTRA_DB_ID}-${NEXT_PUBLIC_ASTRA_DB_REGION}.apps.astra.datastax.com/api/rest/v2/keyspaces/${NEXT_PUBLIC_ASTRA_DB_KEYSPACE}
+NEXT_PUBLIC_ASTRA_DB_ID=<<YOUR_ASTRA_DB_ID>>
+NEXT_PUBLIC_ASTRA_DB_REGION=<<YOUR_ASTRA_REGION>>
+NEXT_PUBLIC_ASTRA_DB_KEYSPACE=<<YOUR_KEYSPACE_NAME>>
+NEXT_PUBLIC_ASTRA_DB_APPLICATION_TOKEN=<<YOUR_TOKEN_VALUE>>
+```
 
 #### Create Tables and Insert Data with CQL console
 1. Navigate to the CQL Console in AstraDB, execute the create table statements.
@@ -109,20 +120,75 @@ select * from ecommerce.catalog;
 
 select * from ecommerce.activity_stream;
 ```
+
+### AWS S3 Bucket
+
+1. Navigate to the AWS Console, create an account if necessary. ![image](images/instruction_images/awsconsole.png)
+2. Navigate to AWS S3 and click on `Create Bucket`. ![image](images/instruction_images/aws-s3.png)
+3. Name your bucket ![image](images/instruction_images/create-bucket.png)
+4. Allow all public access to the bucket by de-selecting here ![image](images/instruction_images/public-access.png)
+5. Click on `Create Bucket`
+6. Navigate to permissions and add this bucket policy. Insert `Your Bucket Name` into the policy.
+
+```
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+      "Principal": "*",
+      "Effect": "Allow",
+      "Action": [
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::<<YOUR-BUCKET-NAME>>/*"
+      }
+   ]
+}
+```
+7. In Permissions, update your `Cross-origin resource sharing (CORS)`
+
+```angular2html
+[
+   {
+      "AllowedHeaders": [
+            "*"
+      ],
+      "AllowedMethods": [
+            "GET",
+            "PUT"
+      ],
+      "AllowedOrigins": [
+            "*"
+      ],
+      "ExposeHeaders": []
+   }
+]
+```
+8. Upload the product images (images/product_images) to your bucket
+9. Create an [Access Key](https://www.youtube.com/watch?v=vucdm8BWFu0) with full S3 permissions. Add the `ACCESS KEY ID`,`SECRET ACCESS KEY`, `BUCKET NAME`, and `AWS REGION` to the .env file.
+```angular2html
+NEXT_PUBLIC_AWS_S3=https://${NEXT_PUBLIC_S3_BUCKET}.s3.amazonaws.com/
+NEXT_PUBLIC_ACCESSKEYID=<<YOUR_ACCESS_KEY_ID>>
+NEXT_PUBLIC_SECRETACESSKEY=<<YOUR_SECRET_ACCESS_KEY>>
+NEXT_PUBLIC_S3_BUCKET=<<YOUR_BUCKET_NAME>>
+NEXT_PUBLIC_REGION=<<YOUR_REGION>>
+```
+
 ### Metamask
 
-1. Download the browser extension and follow the setup steps ![image](./instruction_images/metamask_extension.png)
-2. Navigate to the Metamask wallet, and click the dropdown under **Ethereum Mainnet**. Click on **Show/hide test networks** ![image](./instruction_images/rinkeby_test.png)
-3. Turn **ON** the show/hide networks ![image](./instruction_images/show_test.png)
-4. Select the **Rinkeby Test Network**![image](./instruction_images/rinkeby_select.png)
-5. Click the dropdown on the top right. Select **+ Create Account**. Create a **Buyer Account** AND a **Seller Account** ![image](./instruction_images/create_account.png)
+1. Download the browser extension and follow the setup steps ![image](images/instruction_images/metamask_extension.png)
+2. Navigate to the Metamask wallet, and click the dropdown under **Ethereum Mainnet**. Click on **Show/hide test networks** ![image](images/instruction_images/rinkeby_test.png)
+3. Turn **ON** the show/hide networks ![image](images/instruction_images/show_test.png)
+4. Select the **Rinkeby Test Network**![image](images/instruction_images/rinkeby_select.png)
+5. Click the dropdown on the top right. Select **+ Create Account**. Create a **Buyer Account** AND a **Seller Account** ![image](images/instruction_images/create_account.png)
+
 
 ### Fund your wallets
 
-1. Copy your buyer wallet address from Metamask ![image](./instruction_images/copy_wallet.png)
-2. Create/Log in to an Alchemy Account to the [Rinkeby Faucet](https://rinkebyfaucet.com/). Paste your wallet address and click **Send Me ETH** to get 0.5 Test ETH.  ![image](./instruction_images/fund_wallet.png)
-3. Send half of the test funds (**0.25 ETH**) from Buyer to Seller account ![image](./instruction_images/split_funds.png)
-
+1. Copy your buyer wallet address from Metamask ![image](images/instruction_images/copy_wallet.png)
+2. Create/Log in to an Alchemy Account to the [Rinkeby Faucet](https://rinkebyfaucet.com/). Paste your wallet address and click **Send Me ETH** to get 0.5 Test ETH.  ![image](images/instruction_images/fund_wallet.png)
+3. Send half of the test funds (**0.25 ETH**) from Buyer to Seller account ![image](images/instruction_images/split_funds.png)
 
 ### Github
 <!-- Enter your GITHUB_URL below -->
@@ -139,8 +205,6 @@ select * from ecommerce.activity_stream;
 ## 🚀 Getting Started Paths:
 *Make sure you've completed the [prerequisites](#prerequisites) before starting this step*
 - [Running on your local machine](#running-on-your-local-machine)
-- [Running on Gitpod](#running-on-gitpod)
-
 
 ### Running on your local machine
 
@@ -156,23 +220,25 @@ yarn dev
 
 ### Demo the Application
 
-1. Click on the `Connect to Metamask` button within the store. Select the `Buyer and Seller` accounts in Metamask. View the products in the store ![image](./instruction_images/connect_metamask.png)
+1. Click on the `Connect to Metamask` button within the store. Select the `Buyer and Seller` accounts in Metamask. View the products in the store ![image](images/instruction_images/connect_metamask.png)
 2. Create a sample product and upload an image
 ```angular2html
 Title: Aurora Scenery Painting
 Price: 27.99
 Description: The Solid Wood Mounted Canvas Prints are stylish, attractive and suitable for any contemporary, modern, vintage or retro decor indoor wall art.
 ```
-![image](./instruction_images/create_product.png)
-3. Navigate to the **Seller Wallet**, `List the NFT` ![image](./instruction_images/list_nft.png)
-4. Navigate to the **Buyer Wallet**, `Place bid on the NFT` ![image](./instruction_images/bid_nft.png)
-5. Navigate to the **Seller Wallet**, `Ship the NFT` ![image](./instruction_images/ship_nft.png)
-6. Navigate to the **Buyer Wallet**, `Receive the NFT` ![image](./instruction_images/receive_nft.png)
-7. The product is successful and the deal is closed! ![image](./instruction_images/deal_closed.png)
-8. View the click stream data in the `activity stream table`. Each activity in the application was tracked to the activity_stream table by a POST Request to AstraDB. 
+![image](images/instruction_images/create_product.png)
+3. Navigate to the **Seller Wallet**, `List the NFT`. Wait for the transaction to confirm in Metamask. ![image](images/instruction_images/list_nft.png)
+4. Navigate to the **Buyer Wallet**, `Place bid on the NFT`. Wait for the transaction to confirm in Metamask. ![image](images/instruction_images/bid_nft.png)
+5. Navigate to the **Seller Wallet**, `Ship the NFT`. Wait for the transaction to confirm in Metamask. ![image](images/instruction_images/ship_nft.png)
+6. Navigate to the **Buyer Wallet**, `Receive the NFT`. Wait for the transaction to confirm in Metamask. ![image](images/instruction_images/receive_nft.png)
+7. The product is successful and the deal is closed! ![image](images/instruction_images/deal_closed.png)
+8. View the click stream data in the `activity stream table`. Each activity in the application was tracked to the activity_stream table by a POST Request to AstraDB.
 ```angular2html
 SELECT * FROM ecommerce.activity_stream;
 ```
-![image](./instruction_images/activity_stream.png)
+![image](images/instruction_images/activity_stream.png)
+9. You can view the transactions on the block explorer
+
 
 
